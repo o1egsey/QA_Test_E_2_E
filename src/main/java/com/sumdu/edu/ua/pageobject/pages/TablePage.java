@@ -7,8 +7,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class TablePage extends BasePage
 {
-    @FindBy(xpath = "/html/body/div/div/main/div/h1/a[1]")
+    @FindBy(xpath = "/html/body/div/div/main/table/tbody/tr[2]/td/a")
     private WebElement tableLabel;
+
+    @FindBy(xpath = "/html/body/div/div/main/h1")
+    private WebElement tableName;
 
     public TablePage(WebDriver webDriver) {
         super(webDriver);
@@ -18,5 +21,13 @@ public class TablePage extends BasePage
     public boolean positiveCheckDisplayTableData() {
         return tableLabel.isDisplayed();
     }
-}
 
+    public TablePage ClickdbTableName () {
+        tableLabel.click();
+        return new TablePage(webDriver);
+    }
+
+    public boolean positiveCheckDisplayTablenInfo() {
+        return tableName.isDisplayed();
+    }
+}

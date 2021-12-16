@@ -1,13 +1,14 @@
 package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
+import com.sumdu.edu.ua.pageobject.pages.HomePage;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+import java.io.IOException;
+import static com.sumdu.edu.ua.properties.Properties.*;
 
-import static com.sumdu.edu.ua.properties.Properties.ELEPHANT_LOGIN1;
-import static com.sumdu.edu.ua.properties.Properties.ELEPHANT_PASS;
 
 public class BasicUserDeleteDb extends BaseTest {
     @AfterTest
@@ -16,13 +17,22 @@ public class BasicUserDeleteDb extends BaseTest {
     }
 
     @Test
-    public void positiveBasicUserDBDeletion() {
+    public void positiveBasicUserDBDeletion() throws IOException{
+        String foldername = "positiveBasicUserDBDeletion";
+        boolean error;
+
         LoginPage loginPage = new LoginPage(webDriver);
 
-        boolean fineUpgrade = loginPage
+        HomePage fineUpgrade = loginPage
                 .open()
-                .login(ELEPHANT_LOGIN1, ELEPHANT_PASS).ClickCreateDB().clickProfileButton().BackToHomePage().DeleteDB();
+                .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
+                .ClickCreateDB()
+                .clickProfileButton()
+                .BackToHomePage();
 
-        Assert.assertTrue(fineUpgrade);
+
+        fineUpgrade.capture(foldername);
+        error = fineUpgrade.DeleteDB();
+        Assert.assertTrue(error);
     }
 }

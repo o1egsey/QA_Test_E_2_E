@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static com.sumdu.edu.ua.properties.Properties.*;
 
 public class SignInWithIncorrectPassTest extends BaseTest {
@@ -16,12 +18,17 @@ public class SignInWithIncorrectPassTest extends BaseTest {
     }
 
     @Test
-    public void negativeSignInTest() {
+    public void negativeSignInTest() throws IOException {
+        String folderName = "/registration/SignInWithIncorrectPassTest";
+        boolean check;
         SignInPage signInPage = new SignInPage(webDriver);
-        boolean errorSignIn = signInPage
+        SignInPage errorSignIn = signInPage
                 .open()
-                .negSignIn(ELEPHANT_EMAIL1, ELEPHANT_INV_PASS ,ELEPHANT_INV_PASS)
-                .logoSignIn();
-        Assert.assertTrue(errorSignIn);
+                .negSignIn(ELEPHANT_EMAIL1, ELEPHANT_INV_PASS, ELEPHANT_INV_PASS);
+
+        errorSignIn.capture(folderName);
+        check =  errorSignIn.existErrorSignIn(); //перевірка повідомлення про некоректний пароль
+        Assert.assertTrue(check);
     }
+
 }

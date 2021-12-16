@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import static com.sumdu.edu.ua.properties.Properties.*;
 public class SignInWithBlankPassTest extends BaseTest {
 
     @AfterTest
@@ -14,13 +16,19 @@ public class SignInWithBlankPassTest extends BaseTest {
     }
 
     @Test
-    public void negativeSignInTest() {
+    public void negativeSignInTest() throws IOException {
+        String folderName = "registration/SignInWithBlankPassTest";
+        boolean check;
+
         SignInPage signInPage = new SignInPage(webDriver);
-        boolean errorSignIn = signInPage
+        SignInPage errorSignIn = signInPage
                 .open()
-                .negSignIn("oleg.anischenko00+b@gmail.com","" ,"")
-                .logoSignIn();
-        Assert.assertTrue(errorSignIn);
+                .negSignIn(ELEPHANT_EMAIL, "", "");
+
+        errorSignIn.capture(folderName);
+        check = errorSignIn.existErrorSignIn();
+        Assert.assertTrue(check);
     }
+
 }
 

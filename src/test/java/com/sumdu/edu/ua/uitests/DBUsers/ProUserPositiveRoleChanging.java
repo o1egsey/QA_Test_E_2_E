@@ -2,9 +2,12 @@ package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.ProfilePage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.sumdu.edu.ua.properties.Properties.*;
 
@@ -16,14 +19,23 @@ public class ProUserPositiveRoleChanging extends BaseTest {
         }
 
         @Test
-        public void positiveProUserRoleChanging() {
+        public void positiveProUserRoleChanging() throws IOException {
+
+            String foldername = "/DBUsers/positiveProUserRoleChanging";
+            boolean error;
+
             LoginPage loginPage = new LoginPage(webDriver);
 
-            boolean fineUpgrade = loginPage
+            ProfilePage fineUpgrade = loginPage
                     .open()
-                    .login(ELEPHANT_LOGIN1, ELEPHANT_PASS).clickProfileButton().UpgradeRole().GetUpgradeRole();
+                    .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
+                    .clickProfileButton()
+                    .UpgradeRole();
 
-          Assert.assertTrue(fineUpgrade);
+
+            fineUpgrade.capture(foldername);
+            error = fineUpgrade.GetUpgradeRole();
+            Assert.assertTrue(error);
         }
     }
 

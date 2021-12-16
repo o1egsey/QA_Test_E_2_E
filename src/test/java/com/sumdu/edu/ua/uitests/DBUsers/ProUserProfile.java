@@ -2,9 +2,12 @@ package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.ProfilePage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.sumdu.edu.ua.properties.Properties.ELEPHANT_LOGIN1;
 import static com.sumdu.edu.ua.properties.Properties.ELEPHANT_PASS;
@@ -16,13 +19,23 @@ public class ProUserProfile extends BaseTest {
     }
 
     @Test
-    public void positiveBasicUserDBProfileAvailable() {
+    public void positiveBasicUserDBProfileAvailable()throws IOException {
+
+        String foldername = "/DBUsers/positiveBasicUserDBProfileAvailable";
+        boolean error;
         LoginPage loginPage = new LoginPage(webDriver);
 
-        boolean fineUpgrade = loginPage
+        ProfilePage fineUpgrade = loginPage
                 .open()
-                .login(ELEPHANT_LOGIN1, ELEPHANT_PASS).clickProfileButton().UpgradeRole().BackToHomePage().clickProfileButton().ChangeLanguageIsDisplayed();
+                .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
+                .clickProfileButton()
+                .UpgradeRole()
+                .BackToHomePage()
+                .clickProfileButton();
 
-        Assert.assertTrue(fineUpgrade);
+
+        fineUpgrade.capture(foldername);
+        error = fineUpgrade.ChangeLanguageIsDisplayed();
+        Assert.assertTrue(error);
     }
 }

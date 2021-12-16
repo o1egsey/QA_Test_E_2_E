@@ -2,9 +2,12 @@ package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.PointPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.sumdu.edu.ua.properties.Properties.*;
 
@@ -15,18 +18,23 @@ public class RemoveBackupTest extends BaseTest
     public void tearDown() { quit(); }
 
     @Test
-    public void removeDatabase() {
+    public void removeDatabase() throws IOException {
+
+        String foldername = "/DBUsers/removeDatabase";
+        boolean error;
         LoginPage loginPage = new LoginPage(webDriver);
 
-        boolean removeDatabase = loginPage
+        PointPage removeDatabase = loginPage
                 .open()
                 .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
                 .ClickCreateDB()
                 .clickBackupButton()
                 .positiveBackup(BACKUP_NAME)
-                .removeDatabase()
-                .removeObservationElementIsDisplayed();
+                .removeDatabase();
 
-        Assert.assertTrue(removeDatabase);
+
+        removeDatabase.capture(foldername);
+        error = removeDatabase.removeObservationElementIsDisplayed();
+        Assert.assertTrue(error);
     }
 }

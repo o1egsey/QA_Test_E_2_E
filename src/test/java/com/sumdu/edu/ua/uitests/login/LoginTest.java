@@ -1,11 +1,16 @@
 package com.sumdu.edu.ua.uitests.login;
 
 import com.sumdu.edu.ua.BaseTest;
+import com.sumdu.edu.ua.pageobject.pages.HomePage;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
 import com.sumdu.edu.ua.properties.Properties;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static com.sumdu.edu.ua.properties.Properties.*;
 
 public class LoginTest extends BaseTest {
 
@@ -15,13 +20,20 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void positiveLoginTest() {
+    public void positiveLoginTest() throws IOException {
+        String s = "/login/LoginTest";
         LoginPage loginPage = new LoginPage(webDriver);
-        String userInformation = loginPage
+        HomePage userInformation = loginPage
                 .open()
-                .login(Properties.ELEPHANT_LOGIN, Properties.ELEPHANT_PASS)
-                .getUserInformationLabel();
+                .login(ELEPHANT_LOGIN, ELEPHANT_PASS);
 
-        Assert.assertEquals("oleg.anischenko00+b@gmail.com", userInformation, "User nicks are nor equals");
+        userInformation.capture(s);
+        String label = userInformation.getUserInformationLabel();
+        Assert.assertEquals("oleg.anischenko00+b@gmail.com",label, "User nicks are not equals");
     }
+
+
 }
+
+
+

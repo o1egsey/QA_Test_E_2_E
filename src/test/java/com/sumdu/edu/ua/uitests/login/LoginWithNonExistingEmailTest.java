@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static com.sumdu.edu.ua.properties.Properties.*;
 
 public class LoginWithNonExistingEmailTest extends BaseTest {
@@ -16,13 +18,18 @@ public class LoginWithNonExistingEmailTest extends BaseTest {
     }
 
     @Test
-    public void negativeLoginTest() {
-        LoginPage loginPage = new LoginPage(webDriver);
-        boolean errorLogin = loginPage
-                .open()
-                .negLogin(ELEPHANT_LOGIN1, ELEPHANT_PASS)
-                .existErrorLogin();
+    public void negativeLoginTest() throws IOException {
+        String folderName = "/login/LoginWithNonExistingEmailTest";
 
-        Assert.assertTrue(errorLogin);
+        boolean check;
+        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage errorSignIn = loginPage
+                .open()
+                .negLogin(ELEPHANT_LOGIN1, ELEPHANT_PASS);
+
+        errorSignIn.capture(folderName);
+        check =  errorSignIn.existErrorLogin(); //перевірка повідомлення про неіснуючу почту
+        Assert.assertTrue(check);
     }
+
 }

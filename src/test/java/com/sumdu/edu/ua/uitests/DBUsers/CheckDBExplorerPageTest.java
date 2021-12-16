@@ -2,9 +2,13 @@ package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.TablePage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 import static com.sumdu.edu.ua.properties.Properties.*;
 
@@ -15,15 +19,26 @@ public class CheckDBExplorerPageTest extends BaseTest
     public void tearDown() { quit(); }
 
     @Test
-    public void checkDBExplorerPage() {
+    public void checkDBExplorerPage() throws IOException {
         LoginPage loginPage = new LoginPage(webDriver);
+        File file = new File("src/test/resources/scripts/script3.sql");
+        String folderName = "/DBUsers/CheckDBExplorerPageTest";
+        boolean error;
 
-        boolean checkDBExplorerPage = loginPage
+        TablePage checkDBExplorerPage = loginPage
                 .open()
                 .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
                 .ClickCreateDB()
-                .positiveCheckDBExplorerPage();
+                .clickScript()
+                .upload("script 3", file.getAbsolutePath())
+                .runScript()
+                .dBExplorerClick();
 
-        Assert.assertTrue(checkDBExplorerPage);
+        checkDBExplorerPage.capture(folderName);
+
+        error = checkDBExplorerPage.positiveCheckDisplayTableData();
+
+        Assert.assertTrue(error);
     }
+
 }

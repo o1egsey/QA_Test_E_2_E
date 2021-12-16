@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static com.sumdu.edu.ua.properties.Properties.*;
 
 public class SignInWithExistingEmailTest extends BaseTest {
@@ -16,14 +18,19 @@ public class SignInWithExistingEmailTest extends BaseTest {
     }
 
     @Test
-    public void negativeSignInTest() {
-        SignInPage signInPage = new SignInPage(webDriver);
-        boolean errorSignIn = signInPage
-                .open()
-                .negSignIn(ELEPHANT_LOGIN,ELEPHANT_PASS,ELEPHANT_PASS)
-                .existErrorSignIn();
+    public void negativeSignInTest() throws IOException {
+        String folderName = "/registration/SignInWithExistingEmailTest";
+        boolean check;
 
-        Assert.assertTrue(errorSignIn);
+        SignInPage signInPage = new SignInPage(webDriver);
+        SignInPage errorSignIn = signInPage
+                .open()
+                .negSignIn(ELEPHANT_LOGIN, ELEPHANT_PASS, ELEPHANT_PASS);
+
+        errorSignIn.capture(folderName);
+        check = errorSignIn.existErrorSignIn(); //перевірка повідомлення про існуючу почту
+        Assert.assertTrue(check);
     }
+
 }
 

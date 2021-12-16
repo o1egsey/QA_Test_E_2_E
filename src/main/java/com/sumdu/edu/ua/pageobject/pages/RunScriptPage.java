@@ -10,12 +10,20 @@ public class RunScriptPage extends BasePage {
     @FindBy(xpath = "//div[@class='container']")
     private WebElement scriptContainer;
 
+    @FindBy(xpath = "//*[@id=\"sidebarMenu\"]/div/ul/li[1]/a")
+    private WebElement dBExplorer;
+
     public RunScriptPage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public boolean scriptContainerIsDisplayed(){
         return scriptContainer.isDisplayed();
+    }
+
+    public TablePage dBExplorerClick(){
+        dBExplorer.click();
+        return new TablePage(webDriver);
     }
 }
 

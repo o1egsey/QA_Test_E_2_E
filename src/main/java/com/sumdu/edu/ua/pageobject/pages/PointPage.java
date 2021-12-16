@@ -22,7 +22,7 @@ public class PointPage extends BasePage {
     @FindBy(xpath = "/html/body/div/div/main/div[1]")
     private WebElement resetMessage;
 
-    @FindBy(xpath = "/html/body/div/div/main/div[3]/div/div[2]/div/div[2]/div/form[3]/input")
+    @FindBy(xpath = "//input[@value='Delete']")
     private WebElement removeButton;
 
     @FindBy(xpath = "/html/body/div/div/main/div[2]/div/div[2]/p")
@@ -82,4 +82,3 @@ public class PointPage extends BasePage {
     }
 
 }
-

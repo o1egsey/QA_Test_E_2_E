@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static com.sumdu.edu.ua.properties.Properties.*;
 
 public class SignInWithBlankEmailTest extends BaseTest {
@@ -15,14 +17,19 @@ public class SignInWithBlankEmailTest extends BaseTest {
         quit();
     }
 
-    @Test
-    public void negativeSignInTest() {
-       SignInPage signInPage = new SignInPage(webDriver);
-        boolean errorSignIn = signInPage
+    public void negativeSignInTest() throws IOException {
+        String folderName = "registration/SignInWithBlankEmailTest";
+        boolean check;
+
+        SignInPage signInPage = new SignInPage(webDriver);
+        SignInPage errorSignIn = signInPage
                 .open()
-                .negSignIn("",ELEPHANT_PASS,ELEPHANT_PASS)
-                .existErrorSignIn();
-        Assert.assertTrue(errorSignIn);
+                .negSignIn("", ELEPHANT_PASS, ELEPHANT_PASS);
+
+        errorSignIn.capture(folderName);
+        check = errorSignIn.existErrorSignIn(); //перевірка на повідомлення
+        Assert.assertTrue(check);
     }
+
 }
 

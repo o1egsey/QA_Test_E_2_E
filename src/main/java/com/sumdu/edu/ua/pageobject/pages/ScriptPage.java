@@ -27,7 +27,7 @@ public class ScriptPage extends BasePage {
     @FindBy(xpath = "//ion-icon[@name='trash']")
     private WebElement deleteScript;
 
-    @FindBy(xpath = "//ion-icon[@name='trash']")
+    @FindBy(xpath = "//ion-icon[@name='play']")
     private WebElement runScript;
 
     @FindBy(xpath = "//div[@class='card-list-body card-task']")
@@ -55,9 +55,9 @@ public class ScriptPage extends BasePage {
     public boolean check(){
         return scriptName.isDisplayed();
     }
-     public boolean checkDeletion(){
+    public boolean checkDeletion(){
         return noScriptsMsg.isDisplayed();
-     }
+    }
 
     public boolean scriptAmountErrorIsDisplayed(){
         return scriptLimitAlert.isDisplayed();
@@ -69,7 +69,7 @@ public class ScriptPage extends BasePage {
     }
 
     public RunScriptPage runScript(){
-        deleteScript.click();
+        runScript.click();
         return new RunScriptPage(webDriver);
     }
 }

@@ -2,9 +2,12 @@ package com.sumdu.edu.ua.uitests.DBUsers;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.PointPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.sumdu.edu.ua.properties.Properties.*;
 
@@ -15,19 +18,24 @@ public class ResetDatabaseTest extends BaseTest
     public void tearDown() { quit(); }
 
     @Test
-    public void resetDatabase() {
+    public void resetDatabase() throws IOException {
+
+        String foldername = "/DBUsers/resetDatabase";
+        boolean error;
         LoginPage loginPage = new LoginPage(webDriver);
 
-        boolean resetDatabase = loginPage
+        PointPage resetDatabase = loginPage
                 .open()
                 .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
                 .ClickCreateDB()
                 .clickBackupButton()
                 .positiveBackup(BACKUP_NAME)
-                .resetDatabase()
-                .resetObservationElementIsDisplayed();
+                .resetDatabase();
 
-        Assert.assertTrue(resetDatabase);
+
+        resetDatabase.capture(foldername);
+        error = resetDatabase.resetObservationElementIsDisplayed();
+        Assert.assertTrue(error);
     }
 }
 
