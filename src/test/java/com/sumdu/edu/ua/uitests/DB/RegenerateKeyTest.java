@@ -8,14 +8,20 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-public class RegenerateKeyTest extends BaseTest {
+import java.io.IOException;
+
+public class RegenerateKeyTest extends BaseTest
+{
     @AfterTest
     public void tearDown() {
         quit();
     }
 
     @Test
-    public void positiveLoginTest() {
+    public void positiveLoginTest() throws IOException {
+        String folderName = "/DB/RegenerateKeyTest";
+        boolean error;
+
         LoginPage loginPage = new LoginPage(webDriver);
         String [] keysOld, keysNew;
         ProfilePage profilePage = loginPage
@@ -25,6 +31,9 @@ public class RegenerateKeyTest extends BaseTest {
         keysOld = profilePage.getKeyValue();
         profilePage.regenerate();
         keysNew = profilePage.getKeyValue();
-        Assert.assertFalse (keysNew.equals(keysOld));
+
+        profilePage.capture(folderName);
+        error = keysNew.equals(keysOld);
+        Assert.assertFalse(error);
     }
 }

@@ -2,29 +2,34 @@ package com.sumdu.edu.ua.uitests.profile;
 
 import com.sumdu.edu.ua.BaseTest;
 import com.sumdu.edu.ua.pageobject.pages.LoginPage;
+import com.sumdu.edu.ua.pageobject.pages.ProfilePage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import static com.sumdu.edu.ua.properties.Properties.*;
 
-// Test Case 32 - User Account Deleting (User Profile)
 public class DeleteAccountTest extends BaseTest
 {
     @AfterTest
     public void tearDown() { quit(); }
 
     @Test
-    public void deleteUserAccount() {
+    public void deleteUserAccount() throws IOException {
+        String folderName = "/Profile/DeleteAccountTest";
+        boolean error;
+
         LoginPage loginPage = new LoginPage(webDriver);
 
-        boolean deleteUserAccount = loginPage
+        ProfilePage deleteUserAccount = loginPage
                 .open()
                 .login(ELEPHANT_LOGIN1, ELEPHANT_PASS)
                 .clickProfileButton()
-                .deleteUserAcc()
-                .deleteAccObservationElementIsDisplayed();
+                .deleteUserAcc();
 
-        Assert.assertTrue(deleteUserAccount);
+        deleteUserAccount.capture(folderName);
+        error = deleteUserAccount.deleteAccObservationElementIsDisplayed();
+        Assert.assertTrue(error);
     }
 }
